@@ -87,7 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initHearts() {
-        for (let i = 0; i < 40; i++) {
+        const heartCount = window.innerWidth < 768 ? 20 : 40;
+        hearts = [];
+        for (let i = 0; i < heartCount; i++) {
             hearts.push(new Heart());
         }
     }
@@ -157,6 +159,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nextBtn.addEventListener('click', () => { nextSlide(); resetSlider(); });
     prevBtn.addEventListener('click', () => { prevSlide(); resetSlider(); });
+
+    const sliderContainer = document.querySelector('.slider-container');
+    let touchStartX = 0;
+
+    sliderContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    sliderContainer.addEventListener('touchend', (e) => {
+        const diff = touchStartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) nextSlide();
+            else prevSlide();
+            resetSlider();
+        }
+    }, { passive: true });
 
     startSlider();
 

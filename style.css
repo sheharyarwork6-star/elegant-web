@@ -16,6 +16,8 @@
 
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {
@@ -25,6 +27,7 @@ body {
     animation: gradientBG 15s ease infinite;
     color: var(--white);
     overflow-x: hidden;
+    min-width: 0;
 }
 
 @keyframes gradientBG {
@@ -46,6 +49,13 @@ body {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 .text-center {
@@ -120,6 +130,8 @@ button {
     border: none;
     outline: none;
     transition: all 0.3s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .cta-btn {
@@ -139,10 +151,20 @@ button {
     color: var(--white);
 }
 
+.love-message {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    margin-top: 2.5rem;
+    padding: 0 0.25rem;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 .music-btn {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    right: max(20px, env(safe-area-inset-right));
     z-index: 100;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(5px);
@@ -426,6 +448,12 @@ button {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
+    padding: 16px;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+.modal.hidden {
+    display: none;
 }
 
 .modal.show {
@@ -438,8 +466,12 @@ button {
     border: none;
     max-width: 90%;
     width: 500px;
+    max-height: 85vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     transform: scale(0.8);
     transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
 }
 
 .modal.show .modal-content {
@@ -513,29 +545,205 @@ footer {
 
 /* MOBILE RESPONSIVENESS */
 @media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+
     .romantic-heading {
-        font-size: 2.2rem;
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+    }
+
+    .wife-name {
+        font-size: clamp(2.5rem, 12vw, 3.5rem);
+        letter-spacing: 1px;
+        margin-top: 10px;
     }
 
     .subheading {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 24px;
+    }
+
+    .glass-card {
+        padding: 24px 18px;
+    }
+
+    .fullscreen-section {
+        min-height: 100svh;
+        padding: 80px 16px 40px;
+    }
+
+    .section-padding {
+        padding: 60px 16px;
+    }
+
+    .cta-btn {
+        padding: 14px 28px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 280px;
     }
 
     .slide-text {
-        font-size: 1.2rem;
-        padding: 0 20px;
+        font-size: 1.1rem;
+        padding: 0 48px;
+        line-height: 1.6;
+    }
+
+    .slider {
+        min-height: 160px;
+    }
+
+    .slider-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+    }
+
+    .slider-controls {
+        padding: 0 8px;
     }
 
     .gallery-grid {
         grid-template-columns: 1fr;
-        max-width: 400px;
+        gap: 28px;
+        max-width: 340px;
         margin: 40px auto 0;
+    }
+
+    .polaroid:nth-child(odd) {
+        transform: rotate(-2deg);
+    }
+
+    .polaroid:nth-child(even) {
+        transform: rotate(2deg);
+    }
+
+    .polaroid img {
+        height: 240px;
+    }
+
+    .polaroid .caption {
+        font-size: 1.75rem;
+    }
+
+    .love-message {
+        font-size: 0.95rem;
+        margin-top: 2rem;
+    }
+
+    .counters {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
     }
 
     .counter-box {
         width: 100%;
-        max-width: 300px;
+        max-width: 320px;
         margin: 0 auto;
+        padding: 30px 20px;
+    }
+
+    .counter {
+        font-size: 2.4rem;
+    }
+
+    .counter-box p {
+        font-size: 0.95rem;
+    }
+
+    .glowing-btn {
+        font-size: 1.1rem;
+        padding: 16px 24px;
+        max-width: 92%;
+        white-space: normal;
+        line-height: 1.4;
+    }
+
+    .music-btn {
+        bottom: max(14px, env(safe-area-inset-bottom));
+        right: max(14px, env(safe-area-inset-right));
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+
+    .modal-content {
+        width: 100%;
+        max-width: 100%;
+        padding: 28px 20px 24px;
+    }
+
+    .modal-content .romantic-heading {
+        font-size: 2rem;
+    }
+
+    .romantic-text {
+        font-size: 1rem;
+    }
+
+    .signature {
+        font-size: 2rem;
+    }
+
+    .close-btn {
+        top: 10px;
+        right: 16px;
+        font-size: 2rem;
+        padding: 8px;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    footer {
+        font-size: 0.95rem;
+        padding: 30px 16px max(20px, env(safe-area-inset-bottom));
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .wife-name {
+        font-size: clamp(2rem, 14vw, 2.8rem);
+    }
+
+    .romantic-heading {
+        font-size: 1.65rem;
+    }
+
+    .slide-text {
+        font-size: 1rem;
+        padding: 0 40px;
+    }
+
+    .polaroid img {
+        height: 210px;
+    }
+
+    .gallery-grid {
+        max-width: 100%;
+    }
+
+    #hero .content {
+        width: 100%;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .cta-btn:hover,
+    .music-btn:hover,
+    .slider-btn:hover,
+    .glowing-btn:hover,
+    .polaroid:hover {
+        transform: none;
+    }
+
+    .polaroid:active {
+        transform: scale(1.02) rotate(0deg) !important;
     }
 }
 
